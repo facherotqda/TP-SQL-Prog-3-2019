@@ -1,0 +1,149 @@
+-------------create DATABASE utn-----------
+
+
+
+
+
+
+
+1)
+select productos.pNumero,productos.pNombre,productos.Precio,productos.Tama�o ,envios.Numero,envios.Cantidad from productos  INNER join envios where productos.pNumero=envios.pNumero
+
+Mejorado: 3 tablas ---SELECCIONA TODOS LOS DATOS DE PRODUCTOS (inner join 3 tablas)
+
+SELECT * from productos as pro 
+inner JOIN envios as en on pro.pNumero=en.pNumero
+inner join proveedores as prov on en.Numero=prov.Numero order by pro.pNombre ASC
+
+FINAL DESEADO: SELECCIONA TODOS LOS DATOS DE PRODUCTOS SIN MOSTRAR ID DE OTRAS TABLAS
+
+SELECT pro.pNumero,pro.pNombre,pro.Precio,pro.Tama�o,en.Numero,en.Cantidad,prov.Nombre,prov.Domicilio,prov.Localidad from productos as pro 
+inner JOIN envios as en on pro.pNumero=en.pNumero
+inner join proveedores as prov on en.Numero=prov.Numero order by pro.pNombre ASC
+
+2)
+SELECCIONA TODOS LOS PRODUCTOS COMPLETOS DE QUILMES
+
+SELECT pro.pNumero,pro.pNombre,pro.Precio,pro.Tama�o,en.Numero,en.Cantidad,prov.Nombre,prov.Domicilio,prov.Localidad from productos as pro 
+inner JOIN envios as en on pro.pNumero=en.pNumero
+inner join proveedores as prov on en.Numero=prov.Numero where prov.Localidad='Quilmes'
+
+
+3) 
+MANERA SENCILLA CON POCOS DATOS
+
+SELECT * from envios
+where envios.Cantidad  BETWEEN 200 and 300
+
+MANERA CON DATOS FULL
+
+SELECT * from productos as pro
+inner join  envios as en on pro.pNumero=en.pNumero
+inner join proveedores as prov on en.Numero=prov.Numero WHERE en.Cantidad BETWEEN 200 and 300
+
+4)
+select COUNT(envios.Cantidad) from envios
+
+
+
+5)
+select * from envios limit 0 , 3
+
+6)
+
+select pro.pNombre,prov.Nombre from productos as pro
+INNER JOIN envios as en ON pro.pNumero =en.pnumero
+INNER join  proveedores as prov ON en.numero = prov.numero
+
+
+7)
+SELECT SUM(pro.Precio*en.Cantidad)as MontoEnvios from productos as pro
+INNER JOIN envios as en on pro.pNumero=en.pNumero
+
+8)
+
+SELECT SUM(pro.Precio*en.Cantidad)as MontoEnvios from productos as pro
+INNER JOIN envios as en on pro.pNumero=en.pNumero
+inner join proveedores as prov on en.Numero=prov.Numero where prov.Numero=102
+
+
+9)
+
+SELECT pro.pNumero ,prov.Localidad from productos as pro
+INNER JOIN envios as en on pro.pNumero=en.pNumero
+inner join proveedores as prov on en.Numero=prov.Numero where prov.Localidad='Avellaneda'
+
+10)
+
+select proveedores.Domicilio, proveedores.Localidad from proveedores
+WHERE proveedores.Nombre LIKE'%I%'
+
+11)
+
+INSERT into productos(pNumero,pNombre,Precio,Tama�o) VALUES (4,"Chocolate",25.35,"Chico")
+
+
+12)
+
+INSERT into proveedores VALUES(103,"PEPE","ASD 666","Lanus")
+
+13)
+
+INSERT into proveedores VALUES(107,"ROSALES","","La Plata")
+
+14)
+
+UPDATE productos set productos.Precio=97.50 where productos.Tama�o="Grande"
+
+15)
+
+ACA ELIJO los datos a cambiar
+SELECT * from productos INNER JOIN envios on productos.pNumero=envios.pNumero 
+where productos.Tama�o="Chico" and envios.Cantidad >= 300
+
+aca LOS CAMBIO 
+
+UPDATE productos 
+INNER JOIN envios as en on productos.pNumero=en.Numero
+set productos.Tama�o="Mediano"
+
+where productos.Tama�o="Chico" AND en.Cantidad >=300
+
+16) Eliminar el producto n�mero 1
+
+DELETE FROM productos WHERE productos.pNumero=1
+
+17)
+SELLECCION DE LOS PROVEEDORES QUE NO ENVIARON PRODUCTOS
+
+SELECT * FROM proveedores
+
+WHERE not EXISTS (SELECT 1 from envios where envios.Numero=proveedores.Numero)
+
+AHORA SU ELIMINACION
+
+DELETE FROM proveedores
+
+WHERE not EXISTS (SELECT 1 from envios where envios.Numero=proveedores.Numero)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
